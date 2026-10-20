@@ -8,6 +8,7 @@ import { BASE_URL } from "../utils/constants";
 const Login = () => {
   const [email, setEmail] = useState("prathamesh@gmail.com");
   const [password, setPassword] = useState("Backend@2026");
+  const [error, setError] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -19,8 +20,12 @@ const Login = () => {
     try {
       const res = await axios.post(`${BASE_URL}/login`, reqBody, {withCredentials: true});
       dispatch(addUser(res.data));
+     
       return navigate("/")
-    } catch (err) {}
+    } catch (err) {
+       setError(err?.response?.data || "Something Went Wrong");
+
+    }
   };
   return (
     <div className="flex justify-center my-10">
@@ -58,6 +63,7 @@ const Login = () => {
               />
             </fieldset>
           </div>
+          <div className="text-red-500">{error}</div>
           <div className="justify-end card-actions">
             <button onClick={handleLogin} className="btn btn-primary">Login</button>
           </div>
