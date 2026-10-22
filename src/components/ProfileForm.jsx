@@ -11,7 +11,8 @@ const ProfileForm = ({ user }) => {
   const [age, setAge] = useState(user.age);
   const [about, setAbout] = useState(user.about);
   const [photoUrl, setPhotoUrl] = useState(user.photoUrl);
-  const [gender, setGender] = useState(user.gender);
+  const [showSuccess, setShowSuccess] = useState(false);
+  // const [gender, setGender] = useState(user.gender);
   const [error, setError] = useState(null);
 
   const dispatch = useDispatch();
@@ -23,10 +24,13 @@ const ProfileForm = ({ user }) => {
         { firstName, lastName, age, about, photoUrl },
         { withCredentials: true },
       );
-      dispatch(addUser(res.data.data))
-      console.log(res.data.data);
+      dispatch(addUser(res.data.data));
+      setShowSuccess(true);
+      setTimeout(() => {
+        setShowSuccess(false);
+      }, 3000);
     } catch (err) {
-      setError(err.responses);
+      setError(err.response.data.response);
     }
   };
   return (
@@ -98,7 +102,7 @@ const ProfileForm = ({ user }) => {
             </fieldset>
           </div>
 
-          <div>
+          {/* <div>
             <fieldset className="fieldset">
               <label className="label " htmlFor="gender">
                 Gender
@@ -112,7 +116,7 @@ const ProfileForm = ({ user }) => {
                 placeholder="Please Enter Your Gender"
               />
             </fieldset>
-          </div>
+          </div> */}
 
           <div>
             <fieldset className="fieldset">
@@ -130,7 +134,14 @@ const ProfileForm = ({ user }) => {
             </fieldset>
           </div>
 
-          <div className="text-red-500">{error}</div>
+          {error && <div className="text-red-500">{error}</div>}
+          { showSuccess &&
+            <div className="toast toast-top toast-end">
+              <div className="alert alert-success">
+                <span>Your changes were saved successfully</span>
+              </div>
+            </div>
+          }
           <div className="justify-end card-actions">
             <button className="btn btn-primary" onClick={saveProfile}>
               Update Profile
