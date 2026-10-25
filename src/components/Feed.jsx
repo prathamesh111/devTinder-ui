@@ -1,8 +1,8 @@
 import axios from "axios";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { BASE_URL } from "../utils/constants";
 import { useDispatch, useSelector } from "react-redux";
-import { addFeed } from "../utils/feedSlice";
+import { addFeed, removeuserFromFeed } from "../utils/feedSlice";
 import UserCard from "./UserCard";
 
 const Feed = () => {
@@ -20,15 +20,33 @@ const Feed = () => {
     } catch (err) {}
   };
 
+  const handleSendRequest = async(status,_id) => {
+    console.log(_id);
+    console.log(status);
+    try{
+        const res = await axios.post(`${BASE_URL}/request/send/${status}/${_id}`,{}, {
+        withCredentials: true,
+      });
+
+      dispatch(removeuserFromFeed(_id));
+
+    }catch(err) {
+      console.log("some error occured" + err)
+    }
+  }
+
   useEffect(() => {
     getFeed();
   }, []);
+
+  if(!feed) return;
+  if(feed.length <= 0 ) return <><div className="flex justify-center my-10">You Have Reached To End of the Feed !</div></>
   return (
     <>
       <div className="flex justify-center my-10">
         {feed &&
           feed.map((user) => {
-            return <UserCard key={user._id} user={user} cardType="feed" />;
+            return <UserCard key={user._id} user={user} cardType="feed" handleSendRequest={handleSendRequest} />;
           })}
       </div>
     </>

@@ -1,5 +1,5 @@
-const UserCard = ({ user, cardType, reviewRequests, requestId}) => {
-  const { firstName, lastName, photoUrl, about, gender } = user;
+const UserCard = ({ user, cardType, reviewRequests, requestId, handleSendRequest}) => {
+  const { firstName, lastName, photoUrl, about, gender, _id } = user;
   return (
     <li>
       <div className="card bg-base-100 w-full max-w-96 shadow-sm">
@@ -16,8 +16,8 @@ const UserCard = ({ user, cardType, reviewRequests, requestId}) => {
           {about && <p>{about}</p>}
           {cardType === "feed" && (
             <div className="card-actions justify-center my-4">
-              <button className="btn btn-secondary">Ignore Request</button>
-              <button className="btn btn-primary">Send Request</button>
+              <button onClick={() => handleSendRequest("ignored", _id)} className="btn btn-secondary">Ignore Request</button>
+              <button onClick={() => handleSendRequest("interested", _id)} className="btn btn-primary">Send Request</button>
             </div>
           )}
           {cardType === "requests" && (
@@ -26,7 +26,6 @@ const UserCard = ({ user, cardType, reviewRequests, requestId}) => {
               <button onClick={() => reviewRequests("accepted",requestId )} className="btn btn-primary">Accept</button>
             </div>
           )}
-
         </div>
       </div>
     </li>

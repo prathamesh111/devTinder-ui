@@ -34,7 +34,7 @@ const Requests = () => {
       );
 
       dispatch(
-        addRequests(requests.filter((request) => request._id !== requestId)),
+        removeFromRequests(requestId),
       );
     } catch {
       setError("Could not review the request. Please try again.");
