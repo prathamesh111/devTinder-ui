@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { BASE_URL } from "../utils/constants";
 import { useDispatch, useSelector } from "react-redux";
 import { addConnection } from "../utils/connectionsSlice";
@@ -16,7 +16,6 @@ const Connections = () => {
         withCredentials: true,
       });
       dispatch(addConnection(res.data.data));
-      console.log(res.data.data);
     } catch (err) {}
   };
 
@@ -24,8 +23,8 @@ const Connections = () => {
     fetchConnections();
   }, []);
 
-  if (connections === null) return <div>Loading connections...</div>;
-  if (connections.length === 0) return <div>No connections found</div>;
+  if (connections === null) return <div>Loading Requests...</div>;
+  if (connections.length === 0) return <div>No Requests found</div>;
 
   return (
     <div className="my-10 flex flex-col items-center gap-6 px-4">

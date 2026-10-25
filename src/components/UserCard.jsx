@@ -20,6 +20,13 @@ const UserCard = ({ user, cardType }) => {
               <button className="btn btn-primary">Send Request</button>
             </div>
           )}
+          {cardType === "requests" && (
+            <div className="card-actions justify-center my-4">
+              <button className="btn btn-secondary">Reject</button>
+              <button className="btn btn-primary">Accept</button>
+            </div>
+          )}
+
         </div>
       </div>
     </li>
