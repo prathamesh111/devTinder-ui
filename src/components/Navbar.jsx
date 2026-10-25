@@ -4,6 +4,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router";
 import { BASE_URL } from "../utils/constants";
 import { removeUser } from "../utils/userSlice";
+import {removeConnection} from "../utils/connectionsSlice";
+import { removeFeed } from "../utils/feedSlice";
+import {emptyReqUsers} from "../utils/requestsSlice"
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -18,6 +21,9 @@ const Navbar = () => {
         { withCredentials: true },
       );
       dispatch(removeUser());
+      dispatch(removeConnection());
+      dispatch(removeFeed());
+      dispatch(emptyReqUsers())
       navigate("/login");
     } catch (err) {
       return navigate("/error");

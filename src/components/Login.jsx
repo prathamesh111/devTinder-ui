@@ -6,32 +6,92 @@ import { useNavigate } from "react-router";
 import { BASE_URL } from "../utils/constants";
 
 const Login = () => {
-  const [email, setEmail] = useState("prathamesh@gmail.com");
-  const [password, setPassword] = useState("Backend@2026");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setlastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [isLoginForm, setIsLoginForm] = useState(true);
   const [error, setError] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const handleLogin = async() => {
+  const handleLogin = async () => {
     const reqBody = {
       email,
       password,
     };
     try {
-      const res = await axios.post(`${BASE_URL}/login`, reqBody, {withCredentials: true});
+      const res = await axios.post(`${BASE_URL}/login`, reqBody, {
+        withCredentials: true,
+      });
       dispatch(addUser(res.data));
-     
-      return navigate("/")
-    } catch (err) {
-       setError(err?.response?.data || "Something Went Wrong");
 
+      return navigate("/");
+    } catch (err) {
+      setError(err?.response?.data || "Something Went Wrong");
     }
   };
+
+  const handleSignup = async() => {
+    const reqBody = {
+      firstName,
+      lastName,
+      email,
+      password,
+    };
+    try {
+      const res = await axios.post(`${BASE_URL}/signup`, reqBody, {
+        withCredentials: true,
+      });
+      dispatch(addUser(res.data.data));
+      return navigate("/profile");
+    } catch (err) {
+      setError(err?.response?.data || "Something Went Wrong");
+    }
+  };
+
+
   return (
     <div className="flex justify-center my-10">
       <div className="card w-96 bg-base-100 card-md shadow-sm">
         <div className="card-body">
-          <h2 className="card-title justify-center">Login</h2>
+          <h2 className="card-title justify-center">
+            {isLoginForm ? "Login" : "Signup"}
+          </h2>
+          {!isLoginForm && (
+            <>
+              <div>
+                <fieldset className="fieldset">
+                  <label className="label " htmlFor="firstName">
+                    First Name
+                  </label>
+                  <input
+                    type="text"
+                    id="firstName"
+                    value={firstName}
+                    className="input"
+                    onChange={(e) => setFirstName(e.target.value)}
+                    placeholder="Please Enter Your First Name"
+                  />
+                </fieldset>
+              </div>
+              <div>
+                <fieldset className="fieldset">
+                  <label className="label " htmlFor="lastName">
+                    Last Name
+                  </label>
+                  <input
+                    type="text"
+                    id="lastName"
+                    value={lastName}
+                    className="input"
+                    onChange={(e) => setlastName(e.target.value)}
+                    placeholder="Please Enter Your Last Name"
+                  />
+                </fieldset>
+              </div>
+            </>
+          )}
           <div>
             <fieldset className="fieldset">
               <label className="label " htmlFor="email">
@@ -65,7 +125,17 @@ const Login = () => {
           </div>
           <div className="text-red-500">{error}</div>
           <div className="justify-end card-actions">
-            <button onClick={handleLogin} className="btn btn-primary">Login</button>
+            <button onClick={isLoginForm? handleLogin : handleSignup} className="btn btn-primary">
+              {isLoginForm ? "Login" : "Signup"}
+            </button>
+          </div>
+          <div
+            onClick={() => setIsLoginForm((value) => !value)}
+            className="link text-center"
+          >
+            {isLoginForm
+              ? "New User? Click here to Sign Up"
+              : "Existing user - Login now"}
           </div>
         </div>
       </div>

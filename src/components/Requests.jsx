@@ -5,6 +5,7 @@ import { addRequests } from "../utils/requestsSlice";
 import { useEffect, useState } from "react";
 import { BASE_URL } from "../utils/constants";
 import UserCard from "./UserCard";
+import {removeFromRequests} from "../utils/requestsSlice";
 
 const Requests = () => {
   const dispatch = useDispatch();

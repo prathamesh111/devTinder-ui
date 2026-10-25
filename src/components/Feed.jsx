@@ -20,35 +20,46 @@ const Feed = () => {
     } catch (err) {}
   };
 
-  const handleSendRequest = async(status,_id) => {
+  const handleSendRequest = async (status, _id) => {
     console.log(_id);
     console.log(status);
-    try{
-        const res = await axios.post(`${BASE_URL}/request/send/${status}/${_id}`,{}, {
-        withCredentials: true,
-      });
+    try {
+      const res = await axios.post(
+        `${BASE_URL}/request/send/${status}/${_id}`,
+        {},
+        {
+          withCredentials: true,
+        },
+      );
 
       dispatch(removeuserFromFeed(_id));
-
-    }catch(err) {
-      console.log("some error occured" + err)
+    } catch (err) {
+      console.log("some error occured" + err);
     }
-  }
+  };
 
   useEffect(() => {
     getFeed();
   }, []);
 
-  if(!feed) return;
-  if(feed.length <= 0 ) return <><div className="flex justify-center my-10">You Have Reached To End of the Feed !</div></>
+  if (!feed) return;
+  if (feed.length <= 0)
+    return (
+      <>
+        <div className="flex justify-center my-10">
+          You Have Reached To End of the Feed !
+        </div>
+      </>
+    );
   return (
     <>
-      <div className="flex justify-center my-10">
-        {feed &&
-          feed.map((user) => {
-            return <UserCard key={user._id} user={user} cardType="feed" handleSendRequest={handleSendRequest} />;
-          })}
-      </div>
+      <ul className="my-10 flex min-h-[calc(100vh-8rem)] w-full items-center justify-center px-4">
+        <UserCard
+          user={feed[0]}
+          cardType="feed"
+          handleSendRequest={handleSendRequest}
+        />
+      </ul>
     </>
   );
 };

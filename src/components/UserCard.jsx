@@ -1,4 +1,4 @@
-const UserCard = ({ user, cardType, reviewRequests, requestId, handleSendRequest}) => {
+const   UserCard = ({ user, cardType, reviewRequests, requestId, handleSendRequest}) => {
   const { firstName, lastName, photoUrl, about, gender, _id } = user;
   return (
     <li>

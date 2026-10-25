@@ -10,10 +10,13 @@ const requestsSlice = createSlice({
         removeFromRequests : (state, action) => {
             const newReq = state.filter((request) => request._id !== action.payload)
             return newReq;
+        },
+        emptyReqUsers: (state, actions) => {
+            return null
         }
     }
 });
 
 
-export const {addRequests, removeFromRequests} = requestsSlice.actions;
+export const {addRequests, removeFromRequests, emptyReqUsers} = requestsSlice.actions;
 export default requestsSlice.reducer;
