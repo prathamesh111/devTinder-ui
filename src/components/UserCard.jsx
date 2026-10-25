@@ -1,4 +1,4 @@
-const UserCard = ({ user, cardType }) => {
+const UserCard = ({ user, cardType, reviewRequests, requestId}) => {
   const { firstName, lastName, photoUrl, about, gender } = user;
   return (
     <li>
@@ -22,8 +22,8 @@ const UserCard = ({ user, cardType }) => {
           )}
           {cardType === "requests" && (
             <div className="card-actions justify-center my-4">
-              <button className="btn btn-secondary">Reject</button>
-              <button className="btn btn-primary">Accept</button>
+              <button onClick={() => reviewRequests("rejected",requestId )} className="btn btn-secondary">Reject</button>
+              <button onClick={() => reviewRequests("accepted",requestId )} className="btn btn-primary">Accept</button>
             </div>
           )}
 

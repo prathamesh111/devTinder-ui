@@ -23,6 +23,24 @@ const Requests = () => {
     }
   };
 
+  const reviewRequests = async (status, requestId) => {
+    setError(null);
+
+    try {
+      await axios.post(
+        `${BASE_URL}/request/review/${status}/${requestId}`,
+        {},
+        { withCredentials: true },
+      );
+
+      dispatch(
+        addRequests(requests.filter((request) => request._id !== requestId)),
+      );
+    } catch {
+      setError("Could not review the request. Please try again.");
+    }
+  };
+
   useEffect(() => {
     fetchRequests();
   }, []);
@@ -39,7 +57,9 @@ const Requests = () => {
           return (
             <UserCard
               key={request._id}
+              requestId={request._id}
               user={request.fromUserId}
+              reviewRequests={reviewRequests}
               cardType="requests"
             />
           );
