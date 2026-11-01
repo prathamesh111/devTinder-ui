@@ -18,16 +18,17 @@ const Wrapper = () => {
 
     const fetchUser = async () => {
       try {
-        const res = await axios.get(BASE_URL + "/profile/view", {
+        const res = await axios.get(`${BASE_URL}/profile/view`, {
           withCredentials: true,
         });
         dispatch(addUser(res.data));
       } catch (err) {
-        if (err.response?.status !== 401) {
-          console.error("Failed to fetch the logged-in user:", err);
+        if (err.response?.status === 401) {
+          navigate("/login", { replace: true });
+          return;
         }
 
-        navigate("/login", { replace: true });
+        console.error("Failed to fetch the logged-in user:", err);
       }
     };
 
