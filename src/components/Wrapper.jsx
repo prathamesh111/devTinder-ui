@@ -23,12 +23,11 @@ const Wrapper = () => {
         });
         dispatch(addUser(res.data));
       } catch (err) {
-        if (err.response?.status === 401) {
-          navigate("/login");
-          return;
+        if (err.response?.status !== 401) {
+          console.error("Failed to fetch the logged-in user:", err);
         }
 
-        console.error("Failed to fetch the logged-in user:", err);
+        navigate("/login", { replace: true });
       }
     };
 
