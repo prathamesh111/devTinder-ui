@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { BASE_URL } from "../utils/constants";
 import { useDispatch, useSelector } from "react-redux";
 import { addFeed, removeuserFromFeed } from "../utils/feedSlice";
@@ -8,23 +8,13 @@ import UserCard from "./UserCard";
 const Feed = () => {
   const dispatch = useDispatch();
   const feed = useSelector((store) => store.feed);
-  const getFeed = async () => {
-    if (feed) {
-      return;
-    }
-    try {
-      const res = await axios.get(`${BASE_URL}/feed`, {
-        withCredentials: true,
-      });
-      dispatch(addFeed(res.data.data));
-    } catch (err) {}
-  };
+  const [loadError, setLoadError] = useState(false);
 
   const handleSendRequest = async (status, _id) => {
     console.log(_id);
     console.log(status);
     try {
-      const res = await axios.post(
+      await axios.post(
         `${BASE_URL}/request/send/${status}/${_id}`,
         {},
         {
@@ -39,10 +29,32 @@ const Feed = () => {
   };
 
   useEffect(() => {
-    getFeed();
-  }, []);
+    if (feed) return;
 
-  if (!feed) return;
+    const getFeed = async () => {
+      try {
+        const res = await axios.get(`${BASE_URL}/feed`, {
+          withCredentials: true,
+        });
+        dispatch(addFeed(res.data.data));
+      } catch (err) {
+        setLoadError(true);
+        console.error("Failed to fetch the feed:", err);
+      }
+    };
+
+    getFeed();
+  }, [dispatch, feed]);
+
+  if (loadError && !feed) {
+    return (
+      <div className="flex justify-center my-10" role="alert">
+        Could not load the feed. Check the API connection, then refresh the page.
+      </div>
+    );
+  }
+  if (!feed)
+    return <div className="flex justify-center my-10">Loading feed...</div>;
   if (feed.length <= 0)
     return (
       <>
