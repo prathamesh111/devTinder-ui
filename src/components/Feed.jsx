@@ -65,7 +65,7 @@ const Feed = () => {
     );
   return (
     <>
-      <ul className="my-10 flex min-h-[calc(100vh-8rem)] w-full items-center justify-center px-4">
+      <ul className="mx-auto my-8 flex min-h-[calc(100vh-8rem)] w-full max-w-5xl items-center justify-center px-4">
         <UserCard
           user={feed[0]}
           cardType="feed"

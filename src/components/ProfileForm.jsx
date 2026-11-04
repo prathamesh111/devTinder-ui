@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import UserCard from "./UserCard";
 import { BASE_URL } from "../utils/constants";
 import axios from "axios";
@@ -34,73 +34,62 @@ const ProfileForm = ({ user }) => {
     }
   };
   return (
-    <div className="flex justify-center my-10">
-      <div className="card w-96 bg-base-100 card-md shadow-sm">
-        <div className="card-body">
-          <h2 className="card-title justify-center">Login</h2>
-          <div>
-            <fieldset className="fieldset">
-              <label className="label " htmlFor="firstName">
+    <section className="mx-auto my-8 grid w-full max-w-5xl grid-cols-1 items-start gap-6 px-4 sm:px-6 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] lg:gap-8">
+      <div className="card w-full border border-base-300 bg-base-100 shadow-md">
+        <div className="card-body gap-4 p-5 sm:p-8">
+          <h2 className="card-title justify-center text-2xl">Edit Profile</h2>
+          <fieldset className="fieldset w-full gap-1">
+              <label className="label" htmlFor="firstName">
                 First Name
               </label>
               <input
                 type="text"
                 id="firstName"
                 value={firstName}
-                className="input"
+                className="input w-full"
                 onChange={(e) => setfirstName(e.target.value)}
-                placeholder="Please Enter Your First Name"
+                placeholder="Enter your first name"
               />
-            </fieldset>
-          </div>
-
-          <div>
-            <fieldset className="fieldset">
-              <label className="label " htmlFor="lastName">
-                First Name
+          </fieldset>
+          <fieldset className="fieldset w-full gap-1">
+              <label className="label" htmlFor="lastName">
+                Last Name
               </label>
               <input
                 type="text"
                 id="lastName"
                 value={lastName}
-                className="input"
+                className="input w-full"
                 onChange={(e) => setlastName(e.target.value)}
-                placeholder="Please Enter Your Last Name"
+                placeholder="Enter your last name"
               />
-            </fieldset>
-          </div>
-
-          <div>
-            <fieldset className="fieldset">
-              <label className="label " htmlFor="age">
+          </fieldset>
+          <fieldset className="fieldset w-full gap-1">
+              <label className="label" htmlFor="age">
                 Age
               </label>
               <input
                 type="text"
                 id="age"
                 value={age}
-                className="input"
+                className="input w-full"
                 onChange={(e) => setAge(e.target.value)}
-                placeholder="Please Enter Your Age"
+                placeholder="Enter your age"
               />
-            </fieldset>
-          </div>
-
-          <div>
-            <fieldset className="fieldset">
-              <label className="label " htmlFor="photoUrl">
-                photoUrl
+          </fieldset>
+          <fieldset className="fieldset w-full gap-1">
+              <label className="label" htmlFor="photoUrl">
+                Photo URL
               </label>
               <input
                 type="text"
                 id="photoUrl"
                 value={photoUrl}
-                className="input"
+                className="input w-full"
                 onChange={(e) => setPhotoUrl(e.target.value)}
-                placeholder="Please Enter Your Photo URL"
+                placeholder="Enter your photo URL"
               />
-            </fieldset>
-          </div>
+          </fieldset>
 
           {/* <div>
             <fieldset className="fieldset">
@@ -118,39 +107,37 @@ const ProfileForm = ({ user }) => {
             </fieldset>
           </div> */}
 
-          <div>
-            <fieldset className="fieldset">
-              <label className="label " htmlFor="about">
+          <fieldset className="fieldset w-full gap-1">
+              <label className="label" htmlFor="about">
                 About
               </label>
-              <input
-                type="text"
+              <textarea
                 id="about"
                 value={about}
-                className="input"
+                className="textarea min-h-28 w-full"
                 onChange={(e) => setAbout(e.target.value)}
-                placeholder="Please Enter Your About"
+                placeholder="Tell people a little about yourself"
               />
-            </fieldset>
-          </div>
+          </fieldset>
 
-          {error && <div className="text-red-500">{error}</div>}
-          { showSuccess &&
-            <div className="toast toast-top toast-end">
-              <div className="alert alert-success">
-                <span>Your changes were saved successfully</span>
-              </div>
+          {error && <div className="text-sm text-error" role="alert">{error}</div>}
+          {showSuccess && (
+            <div className="alert alert-success py-2" role="status">
+              <span>Your changes were saved successfully</span>
             </div>
-          }
-          <div className="justify-end card-actions">
-            <button className="btn btn-primary" onClick={saveProfile}>
+          )}
+          <div className="card-actions mt-2">
+            <button className="btn btn-primary w-full" onClick={saveProfile}>
               Update Profile
             </button>
           </div>
         </div>
       </div>
-      <UserCard user={{ firstName, lastName, photoUrl, age, about }} />
-    </div>
+      <div className="mx-auto w-full max-w-md lg:sticky lg:top-6">
+        <h2 className="mb-3 text-center text-lg font-semibold">Profile Preview</h2>
+        <UserCard user={{ firstName, lastName, photoUrl, age, about }} />
+      </div>
+    </section>
   );
 };
 
