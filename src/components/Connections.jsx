@@ -27,14 +27,14 @@ const Connections = () => {
   if (connections.length === 0) return <div>No Requests found</div>;
 
   return (
-    <div className="my-10 flex flex-col items-center gap-6 px-4">
-      <h1 className="text-bold text-2xl">Connections</h1>
-      <ul className="grid w-full max-w-6xl grid-cols-1 justify-items-center gap-6 sm:grid-cols-2 lg:grid-cols-3">
+    <section className="mx-auto my-10 w-full max-w-6xl px-4 sm:px-6">
+      <h1 className="mb-6 text-center text-2xl font-bold">Connections</h1>
+      <ul className="mx-auto grid w-full max-w-5xl grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {connections.map((connection) => {
           return <UserCard key={connection._id} user={connection} cardType = "connections" />;
         })}
       </ul>
-    </div>
+    </section>
   );
 };
 

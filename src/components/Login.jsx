@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useState } from "react";
+import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { addUser } from "../utils/userSlice";
 import { useNavigate } from "react-router";
@@ -52,65 +52,59 @@ const Login = () => {
 
 
   return (
-    <div className="flex justify-center my-10">
-      <div className="card w-96 bg-base-100 card-md shadow-sm">
-        <div className="card-body">
-          <h2 className="card-title justify-center">
+    <div className="flex w-full items-center justify-center px-4 py-10">
+      <div className="card h-[34rem] w-full max-w-md border border-base-300 bg-base-100 shadow-lg">
+        <div className="card-body h-full justify-between gap-3 p-6 sm:p-8">
+          <h2 className="card-title justify-center text-2xl">
             {isLoginForm ? "Login" : "Signup"}
           </h2>
-          {!isLoginForm && (
-            <>
-              <div>
-                <fieldset className="fieldset">
-                  <label className="label " htmlFor="firstName">
+          <div className="space-y-3">
+            {!isLoginForm && (
+              <>
+                <fieldset className="fieldset w-full gap-1">
+                  <label className="label" htmlFor="firstName">
                     First Name
                   </label>
                   <input
                     type="text"
                     id="firstName"
                     value={firstName}
-                    className="input"
+                    className="input w-full"
                     onChange={(e) => setFirstName(e.target.value)}
-                    placeholder="Please Enter Your First Name"
+                    placeholder="Enter your first name"
                   />
                 </fieldset>
-              </div>
-              <div>
-                <fieldset className="fieldset">
-                  <label className="label " htmlFor="lastName">
+                <fieldset className="fieldset w-full gap-1">
+                  <label className="label" htmlFor="lastName">
                     Last Name
                   </label>
                   <input
                     type="text"
                     id="lastName"
                     value={lastName}
-                    className="input"
+                    className="input w-full"
                     onChange={(e) => setlastName(e.target.value)}
-                    placeholder="Please Enter Your Last Name"
+                    placeholder="Enter your last name"
                   />
                 </fieldset>
-              </div>
-            </>
-          )}
-          <div>
-            <fieldset className="fieldset">
-              <label className="label " htmlFor="email">
+              </>
+            )}
+            <fieldset className="fieldset w-full gap-1">
+              <label className="label" htmlFor="email">
                 Email Id
               </label>
               <input
-                type="text"
+                type="email"
                 id="email"
                 value={email}
-                className="input"
+                className="input w-full"
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="Please Enter Your Email"
+                placeholder="Enter your email"
+                autoComplete="email"
               />
             </fieldset>
-          </div>
-
-          <div>
-            <fieldset className="fieldset">
-              <label className="label " htmlFor="password">
+            <fieldset className="fieldset w-full gap-1">
+              <label className="label" htmlFor="password">
                 Password
               </label>
               <input
@@ -118,25 +112,39 @@ const Login = () => {
                 id="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="input"
-                placeholder="Please Enter Your password"
+                className="input w-full"
+                placeholder="Enter your password"
+                autoComplete={isLoginForm ? "current-password" : "new-password"}
               />
             </fieldset>
           </div>
-          <div className="text-red-500">{error}</div>
-          <div className="justify-end card-actions">
-            <button onClick={isLoginForm? handleLogin : handleSignup} className="btn btn-primary">
+          <div
+            className="min-h-10 line-clamp-2 text-sm text-error"
+            role={error ? "alert" : undefined}
+          >
+            {error}
+          </div>
+          <div className="card-actions justify-end">
+            <button
+              type="button"
+              onClick={isLoginForm ? handleLogin : handleSignup}
+              className="btn btn-primary w-full"
+            >
               {isLoginForm ? "Login" : "Signup"}
             </button>
           </div>
-          <div
-            onClick={() => setIsLoginForm((value) => !value)}
-            className="link text-center"
+          <button
+            type="button"
+            onClick={() => {
+              setError("");
+              setIsLoginForm((value) => !value);
+            }}
+            className="link self-center text-center text-sm"
           >
             {isLoginForm
               ? "New User? Click here to Sign Up"
               : "Existing user - Login now"}
-          </div>
+          </button>
         </div>
       </div>
     </div>
