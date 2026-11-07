@@ -11,8 +11,6 @@ const Feed = () => {
   const [loadError, setLoadError] = useState(false);
 
   const handleSendRequest = async (status, _id) => {
-    console.log(_id);
-    console.log(status);
     try {
       await axios.post(
         `${BASE_URL}/request/send/${status}/${_id}`,
