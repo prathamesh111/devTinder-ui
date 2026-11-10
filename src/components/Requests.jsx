@@ -6,23 +6,12 @@ import { useEffect, useState } from "react";
 import { BASE_URL } from "../utils/constants";
 import UserCard from "./UserCard";
 import {removeFromRequests} from "../utils/requestsSlice";
+import Loader from "./loader";
 
 const Requests = () => {
   const dispatch = useDispatch();
   const requests = useSelector((store) => store.requests);
   const [error, setError] = useState(null);
-
-  const fetchRequests = async () => {
-    if (requests) return;
-    try {
-      const res = await axios.get(BASE_URL + "/users/requests/received", {
-        withCredentials: true,
-      });
-      dispatch(addRequests(res.data.data));
-    } catch {
-      setError("Could not load requests. Please try again.");
-    }
-  };
 
   const reviewRequests = async (status, requestId) => {
     setError(null);
@@ -43,11 +32,24 @@ const Requests = () => {
   };
 
   useEffect(() => {
+    if (requests) return;
+
+    const fetchRequests = async () => {
+      try {
+        const res = await axios.get(BASE_URL + "/users/requests/received", {
+          withCredentials: true,
+        });
+        dispatch(addRequests(res.data.data));
+      } catch {
+        setError("Could not load requests. Please try again.");
+      }
+    };
+
     fetchRequests();
-  }, []);
+  }, [dispatch, requests]);
 
   if (error) return <div role="alert">{error}</div>;
-  if (requests === null) return <div>Loading requests...</div>;
+  if (requests === null) return <Loader />;
   if (requests.length === 0) return <div>No requests found</div>;
 
   return (

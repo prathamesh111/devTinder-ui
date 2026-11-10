@@ -4,6 +4,7 @@ import { BASE_URL } from "../utils/constants";
 import { useDispatch, useSelector } from "react-redux";
 import { addFeed, removeuserFromFeed } from "../utils/feedSlice";
 import UserCard from "./UserCard";
+import Loader from "./loader";
 
 const Feed = () => {
   const dispatch = useDispatch();
@@ -51,8 +52,7 @@ const Feed = () => {
       </div>
     );
   }
-  if (!feed)
-    return <div className="flex justify-center my-10">Loading feed...</div>;
+  if (!feed) return <Loader />;
   if (feed.length <= 0)
     return (
       <>
