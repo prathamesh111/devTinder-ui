@@ -1,6 +1,9 @@
-const   UserCard = ({ user, cardType, reviewRequests, requestId, handleSendRequest}) => {
+  import { Link } from "react-router";
+
+const UserCard = ({ user, cardType, reviewRequests, requestId, handleSendRequest}) => {
   const { firstName, lastName, photoUrl, about, gender, _id } = user;
   const isFeedCard = cardType === "feed";
+
   const aboutWords = about?.trim().split(/\s+/) ?? [];
   const feedAbout =
     aboutWords.length > 150
@@ -60,6 +63,13 @@ const   UserCard = ({ user, cardType, reviewRequests, requestId, handleSendReque
             <div className="card-actions mt-auto justify-center pt-3">
               <button onClick={() => reviewRequests("rejected",requestId )} className="btn btn-secondary">Reject</button>
               <button onClick={() => reviewRequests("accepted",requestId )} className="btn btn-primary">Accept</button>
+            </div>
+          )}
+          {cardType === "connections" && (
+            <div className="card-actions mt-auto justify-center pt-3">
+              <Link to={`/chat/${_id}`} className="btn btn-primary">
+                Chat
+              </Link>
             </div>
           )}
         </div>

@@ -36,13 +36,13 @@ const Wrapper = () => {
   }, [dispatch, navigate, userData]);
 
   return (
-    <>
+    <div className="flex min-h-dvh flex-col">
       <Navbar />
-      <main>
+      <main className="flex-1">
         <Outlet />
       </main>
       <Footer />
-    </>
+    </div>
   );
 };
 
