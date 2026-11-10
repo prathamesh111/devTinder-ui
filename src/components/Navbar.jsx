@@ -47,52 +47,50 @@ const Navbar = () => {
         </Link>
       </div>
       <div className="flex gap-2">
-        <details ref={dropdownRef} className="dropdown dropdown-end mx-5">
-          {user && (
+        {user && (
+          <details ref={dropdownRef} className="dropdown dropdown-end mx-5">
             <summary className="btn btn-ghost btn-circle avatar">
               <div className="w-10 rounded-full">
                 <img alt="Tailwind CSS Navbar component" src={user.photoUrl} />
               </div>
             </summary>
-          )}
-          <ul
-            className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
-          >
-            <li>
-              <Link
-                to="/feed"
-                className="justify-between"
-                onClick={closeMenu}
-              >
-                Feed
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/profile"
-                className="justify-between"
-                onClick={closeMenu}
-              >
-                Profile
-              </Link>
-            </li>
-            <li>
-              <Link to="/connections" onClick={closeMenu}>
-                Connections
-              </Link>
-            </li>
-            <li>
-              <Link to="/requests" onClick={closeMenu}>
-                Requests
-              </Link>
-            </li>
-            <li>
-              <button type="button" onClick={handleLogout}>
-                Logout
-              </button>
-            </li>
-          </ul>
-        </details>
+            <ul className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow">
+              <li>
+                <Link
+                  to="/feed"
+                  className="justify-between"
+                  onClick={closeMenu}
+                >
+                  Feed
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/profile"
+                  className="justify-between"
+                  onClick={closeMenu}
+                >
+                  Profile
+                </Link>
+              </li>
+              <li>
+                <Link to="/connections" onClick={closeMenu}>
+                  Connections
+                </Link>
+              </li>
+              <li>
+                <Link to="/requests" onClick={closeMenu}>
+                  Requests
+                </Link>
+              </li>
+              <li>
+                <button type="button" onClick={handleLogout}>
+                  Logout
+                </button>
+              </li>
+            </ul>
+          </details>
+        )}
       </div>
     </div>
   );
