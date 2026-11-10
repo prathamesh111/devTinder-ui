@@ -1,21 +1,30 @@
 import axios from "axios";
-import React from "react";
+import { useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router";
 import { BASE_URL } from "../utils/constants";
 import { removeUser } from "../utils/userSlice";
-import {removeConnection} from "../utils/connectionsSlice";
+import { removeConnection } from "../utils/connectionsSlice";
 import { removeFeed } from "../utils/feedSlice";
-import {emptyReqUsers} from "../utils/requestsSlice"
+import { emptyReqUsers } from "../utils/requestsSlice";
 
 const Navbar = () => {
   const navigate = useNavigate();
   const user = useSelector((store) => store.user);
   const dispatch = useDispatch();
+  const dropdownRef = useRef(null);
+
+  const closeMenu = () => {
+    if (dropdownRef.current) {
+      dropdownRef.current.open = false;
+    }
+  };
 
   const handleLogout = async () => {
+    closeMenu();
+
     try {
-      const res = await axios.post(
+      await axios.post(
         `${BASE_URL}/logout`,
         {},
         { withCredentials: true },
@@ -23,10 +32,10 @@ const Navbar = () => {
       dispatch(removeUser());
       dispatch(removeConnection());
       dispatch(removeFeed());
-      dispatch(emptyReqUsers())
+      dispatch(emptyReqUsers());
       navigate("/login");
-    } catch (err) {
-      return navigate("/error");
+    } catch {
+      navigate("/error");
     }
   };
 
@@ -38,43 +47,52 @@ const Navbar = () => {
         </Link>
       </div>
       <div className="flex gap-2">
-        <div className="dropdown dropdown-end mx-5">
+        <details ref={dropdownRef} className="dropdown dropdown-end mx-5">
           {user && (
-            <div
-              tabIndex={0}
-              role="button"
-              className="btn btn-ghost btn-circle avatar"
-            >
+            <summary className="btn btn-ghost btn-circle avatar">
               <div className="w-10 rounded-full">
                 <img alt="Tailwind CSS Navbar component" src={user.photoUrl} />
               </div>
-            </div>
+            </summary>
           )}
           <ul
-            tabIndex={-1}
             className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
           >
             <li>
-              <Link to="/feed" className="justify-between">
+              <Link
+                to="/feed"
+                className="justify-between"
+                onClick={closeMenu}
+              >
                 Feed
               </Link>
             </li>
             <li>
-              <Link to="/profile" className="justify-between">
+              <Link
+                to="/profile"
+                className="justify-between"
+                onClick={closeMenu}
+              >
                 Profile
               </Link>
             </li>
             <li>
-              <Link to="/connections">Connections</Link>
+              <Link to="/connections" onClick={closeMenu}>
+                Connections
+              </Link>
             </li>
             <li>
-              <Link to="/requests">Requests</Link>
+              <Link to="/requests" onClick={closeMenu}>
+                Requests
+              </Link>
             </li>
             <li>
-              <a onClick={handleLogout}>Logout</a>
+              <button type="button" onClick={handleLogout}>
+                Logout
+              </button>
             </li>
           </ul>
-        </div>
+        </details>
       </div>
     </div>
   );
